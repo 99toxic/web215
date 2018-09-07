@@ -13,8 +13,8 @@ var b = "the number is";
 document.write(br + b + a);
 
 //Perform Operations
-var c = 30; 
-var d = 30.5; 
+var c = 30;
+var d = 30.5;
 
 document.write(br + (c + d));
 document.write(br + (d - c));
@@ -28,7 +28,7 @@ var age = "64";
 var number = 1;
 
 document.write(br + aristocat + " is " + age + " years old.");
-document.write(br + (age + number)); 
+document.write(br + (age + number));
 
 //Create Indexed Arrays
 var food = ["Apple", "Pizza", "Cake", "Cheese"];
@@ -42,17 +42,17 @@ food[4] = "Bagel";
 document.write(br + food);
 
 //Add a multiple elements to the end of the array
-food .push("Hotdog", "Burger");
+food.push("Hotdog", "Burger");
 
-document.write(br + food); 
+document.write(br + food);
 
 //Add a multiple elements to the beginning of the array
 food.unshift("Bannana", "Peach");
 
-document.write(br + food); 
+document.write(br + food);
 
 //Remove a single element from the beginning of the array
-food.shift(); 
+food.shift();
 
 document.write(br + food);
 
@@ -66,19 +66,4 @@ var fruit = ["Bannana", "Peach", "Apple"];
 var veg = ["Broccoli", "Pepper", "Celery", "Carrot"];
 var fruitVeg = [fruit, veg];
 
-document.write(br + fruitVeg[1] [0]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+document.write(br + fruitVeg[1][0]);
