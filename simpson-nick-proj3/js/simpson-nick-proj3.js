@@ -37,6 +37,7 @@ if (expression == solution) {
 
 
 //else-if
+document.write('<p>---------------------------------------------</p>');
 
 //example 1
 var total = 76;
@@ -72,6 +73,7 @@ if (total > 100) {
 }
 
 //Multiple Conditions
+document.write('<p>---------------------------------------------</p>');
 
 //example 1
 var salary = 80000;
@@ -94,6 +96,7 @@ if (salary >= 70000 && salary <= 1000000) {
 ////////////////// Loops //////////////////////
 
 //While
+document.write('<p>---------------------------------------------</p>');
 var num = 1;
 
 while (num < 6) {
@@ -102,6 +105,7 @@ while (num < 6) {
 }
 
 //Do - while
+document.write('<p>---------------------------------------------</p>');
 var num = 1;
 
 do {
@@ -110,6 +114,7 @@ do {
 } while (num < 6);
 
 //For
+document.write('<p>---------------------------------------------</p>');
 arrPlanets = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
 
 for (var i = 0; i < arrPlanets.length; i++) {
@@ -119,6 +124,7 @@ for (var i = 0; i < arrPlanets.length; i++) {
 ////////////////// Functions //////////////////////
 
 //Functions and Arguments
+document.write('<p>---------------------------------------------</p>');
 function message(hello) {
   document.write(br + hello);
 }
@@ -126,6 +132,7 @@ function message(hello) {
 message("hello how are you");
 
 //Multiple Arguments
+document.write('<p>---------------------------------------------</p>');
 function numbers(one, two) {
   var finalProduct = one * two;
   return finalProduct;
