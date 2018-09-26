@@ -14,7 +14,8 @@ function starterFunction() {
     var theUrl = allAnchor[i].getAttribute('href');
     allAnchor[i].setAttribute('title', theUrl);
     // External Links to new tab
-    if (theUrl == 'http://www.google.com' || theUrl == 'http://www.abtech.edu' || theUrl == 'https://en.wikipedia.org/wiki/Jellyfish_(band)') {
+    var exUrl = theUrl.startsWith("http" || "https");
+    if (exUrl == true) {
       allAnchor[i].target = '_blank';
     } // End if
   } // End for loop
