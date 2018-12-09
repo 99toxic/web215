@@ -72,12 +72,10 @@ function getArticles(dataFromServer) {
 
   var articles = dataFromServer.response.meta;
 
-  $.each(articles, function (articlesIndex, articlesValue) {
-
     var articleSearch = $('#q').val();
     var beginDate = $('#date').val();
     var endDate = $('#dateTwo').val();
-    var articlePages = articlesValue.hits;
+    var articlePages = articles.hits;
     var heading = 'Your search for "' + articleSearch + '" from ' + beginDate + ' to ' + endDate + ' returned ' + articlePages + ' articles';
 
     $('#articleHeading').text(heading);
@@ -106,6 +104,5 @@ function getArticles(dataFromServer) {
 
     }); // end each anonymous function
 
-  }); // end each anonymous function
 
-} // end function
+}// end function
