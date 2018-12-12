@@ -1,13 +1,3 @@
-function globalFunctions() {
-  anchorBlank();
-  currentPage();
-  accordion();
-  tableStripe();;
-  duckgallery();
-  duckContact();
-  duckMovies();
-} // end globalFunctions
-
 function anchorBlank() {
   var allAnchor = document.getElementsByTagName('a');
 
@@ -20,95 +10,73 @@ function anchorBlank() {
   } // End for loop
 } //end anchorBlank
 
-function currentPage() {
-  var siteTitle = $('title').text();
+function currentPage(className) {
   var pathname = $(location).attr('pathname');
   var curPage = pathname.substring(pathname.lastIndexOf('/') + 1);
 
   $('a').each(function () {
-    if (siteTitle == 'Oh Duck!' && curPage == $(this).attr('href')) {
-      $(this).attr('class', 'pageHighlight');
-    } // end if
-    if (siteTitle == 'Aquaphobic fish' && curPage == $(this).attr('href')) {
-      $(this).attr('class', 'currentLink');
+    if (curPage == $(this).attr('href')) {
+      $(this).attr('class', className);
     } // end if
 
-    if (siteTitle == 'Oh Duck!' && curPage == '') {
-      $('a[href="index.html"]').attr('class', 'pageHighlight');
-    } // end if
-
-    if (siteTitle == 'Aquaphobic fish' && curPage == '') {
-      $('a[href="index.html"]').attr('class', 'currentLink');
+    if (curPage == '') {
+      $('a[href="index.html"]').attr('class', className);
     } // end if
   }); // end each anon function
 } //end currentPage
 
-function accordion() {
-  //  if($('h2').text() == 'Who has the most rubber ducks?') {
-  //    $(this).append('<div>');
-  //  }
-  //  if($('h2').text() == 'Are all rubber ducks yellow?') {
-  //    $(this).prepend('</div>');
-  //  }
-
-  $('#faqs').accordion({
+function accordion(pageId) {
+  $(pageId).accordion({
     collapsible: true,
     heightStyle: 'content',
     active: false
-  });
-
-  $('#fishfaq').accordion({
-    collapsible: true,
-    heightStyle: 'content',
-    active: false
-  });
+  }); // end accordion
 } //end accordion
 
-function tableStripe() {
-  $('#duck_stories tr:even').addClass('even-row');
-  $('#duck_stories tr:odd').addClass('oddrow');
-  $('#duck_stories tr td:first-child').css({
+function tableStripe(rowA, rowB, hoverClass) {
+  /* Stripe Table */
+  $('table tr:even').addClass(rowA);
+  $('table tr:odd').addClass(rowB);
+
+  /* Formatte all text like hyperlinks */
+  $('table tr td:first-child').css({
     'text-decoration': 'underline',
     'color': '#006'
-  });
+  }); // end css
 
-  $('#duck_stories tr:not(:first-child)').hover(function () {
-    $(this).toggleClass('over-row');
-  });
+  /* Gives a css hover class and finger on hover (not to header row) */
+  $('table tr:not(:first-child)').css('cursor', 'pointer').hover(function () {
+    $(this).toggleClass(hoverClass);
+  }); // end hover
 
-  $('#fishfun tr:even').addClass('rowA');
-  $('#fishfun tr:odd').addClass('rowB');
-
-  $('#fishfun tr:not(:first-child)').hover(function () {
-    $(this).toggleClass('rowOver');
-  });
-
-  $('#duck_stories tr:not(:first-child), #fishfun tr:not(:first-child)').css('cursor', 'pointer').click(function (evt) {
+  /* Opens each row to link destination (not to header row) */
+  $('table tr:not(:first-child)').click(function (evt) {
     evt.preventDefault();
     var anchorLink = $(this).find('a').attr('href');
     window.open(anchorLink);
-  });
+  }); // end click
 } //end tableStripe
 
-function duckgallery() {
+function gallery(galleryAnchor, galleryThumbImg, galleryThumb) {
   var galleryImages = [];
-  var loadThese = $('#galleryThumbs a');
+  var loadThese = $(galleryAnchor);
   for (i = 0; i < loadThese.length; i++) {
     galleryImages[i] = new Image();
     galleryImages[i].src = loadThese[i];
-  } // end for
+  } // end for loop
 
-  var firstImagePath = $('#galleryThumbs a').attr('href');
-  var firstImageAlt = $('#galleryThumbs a img').attr('alt');
+  /* Create big imgage and figcaption with alt text */
+  var firstImagePath = $(galleryAnchor).attr('href');
+  var firstImageAlt = $(galleryThumbImg).attr('alt');
   var firstImage = $('<figure id="galleryBig"><img src="' + firstImagePath + '" alt="' + firstImageAlt + '"><figcaption>' + firstImageAlt + '</figcaption></figure>');
-  $('#galleryThumbs').after(firstImage);
+  $(galleryThumb).after(firstImage);
 
   $('#gallery a').click(function (evt) {
     evt.preventDefault();
     oldImage = $('#galleryBig').children(':first');
     oldCapt = $('#galleryBig').children('figcaption');
     var imgPath = $(this).attr('href');
-    var imgAlt = $(this).children('#galleryThumbs a img').attr('alt');
+    var imgAlt = $(this).children(galleryThumbImg).attr('alt');
     var newImage = $('<img src="' + imgPath + '" alt="' + imgAlt + '">');
     var newCapt = $('<figcaption>' + imgAlt + '</figcaption>');
     newImage.hide();
@@ -121,7 +89,7 @@ function duckgallery() {
   }); //end anonymous fcn
 } //end gallery
 
-function duckContact() {
+function focusArea() {
   var elements = $('input:text, textarea');
   elements.focus(function () {
     var defVal = $(this).prop('value');
@@ -138,80 +106,135 @@ function duckContact() {
     } // end if
   }); // end blur anon function
 
-  $('#content form').validate({
-    rules: {
-      fullname: 'required',
-      emailaddy: {
-        required: true,
-        email: true
-      },
-      sightingdate: 'required',
-      date: 'required'
-    },
-    messages: {
-      fullname: 'Please enter your name.',
-      emailaddy: 'Please enter your email.'
+} //end focusArea
+
+function formVal(fullId, firstId, lastId, emailId, dateId) {
+
+  /* Remove old  attr names and replace with new to make global */
+  $(fullId).removeAttr('name');
+  $(fullId).attr('name', 'full');
+
+  $(firstId).removeAttr('name');
+  $(firstId).attr('name', 'first');
+
+  $(lastId).removeAttr('name');
+  $(lastId).attr('name', 'last');
+
+  $(emailId).removeAttr('name');
+  $(emailId).attr('name', 'email');
+
+  $(dateId).removeAttr('name');
+  $(dateId).attr('name', 'date');
+
+  /* Checks for placeholder text */
+  $.validator.addMethod("notDefaultText", function (value, element) {
+    if (value == $(element).attr('value')) {
+      return false;
+    } else {
+      return true;
     }
   });
 
-  $('#sightingdate').datepicker({
+  /* Validate rules for form */
+  $('form').validate({
+    rules: {
+      full: {
+        required: true,
+        notDefaultText: true
+      },
+      first: {
+        required: true,
+        notDefaultText: true
+      },
+      last: {
+        required: true,
+        notDefaultText: true
+      },
+      email: {
+        required: true,
+        email: true,
+        notDefaultText: true
+      },
+      date: 'required'
+    },
+    messages: {
+      full: 'Please enter your first and last name!',
+      first: 'Please enter your first name!',
+      last: 'Please enter your last name!',
+      email: 'Please enter your email!',
+      date: 'Please pick a date!'
+    },
+    errorPlacement: function (error, element) {
+      error.insertAfter(element).css('color', '#f00');
+    }
+  }); // end validate
+
+  $(dateId).datepicker({
     maxDate: 0
   });
+} //end formVal
 
-  $('#formDuck, #formCow, #formRabbit').draggable({
+function dragDrop(dragNames, dropNames, className, dropKey, dragKey) {
+  $(dragNames).draggable({
     cursor: 'move',
-    opacity: .75,
+    opacity: .85,
     zIndex: 100,
     revert: true
-  });
-  $('#formMountains, #formPond, #formSpace').droppable({
-    hoverClass: 'dropHighlight',
+  }); // end draggable
+
+  $(dropNames).droppable({
+    hoverClass: className,
     tolerance: 'intersect',
-    accept: '#formDuck, #formCow, #formRabbit',
+    accept: dragNames,
     drop: function (event, ui) {
       var dropId = $(this).attr('id');
       var dragId = ui.helper.attr('id');
 
-      if (dropId == 'formPond' && dragId == 'formDuck') {
-        $('#content form').submit();
+      if (dropId == dropKey && dragId == dragKey) {
+        $('form').submit();
       }
     }
-  });
-} // end contactVal
+  }); // end droppable
+} // end dragDrop
 
-function duckMovies() {
+function movies(pageName, movieNames) {
 
   var pathname = $(location).attr('pathname');
   var curPage = pathname.substring(pathname.lastIndexOf('/') + 1);
 
-  if(curPage == 'media.html') {
+  if (curPage == pageName) {
 
-  $('#movies').remove();
-  $('p').after('<div id="movies"></div>');
+    $('#movies').remove();
+    $('p').after('<div id="movies"></div>');
 
-  var link = 'https://api.nytimes.com/svc/movies/v2/reviews/search.json?api-key=1eeeeb00d14043ac982b41707fef4655&query=duck';
+    var link = 'https://api.nytimes.com/svc/movies/v2/reviews/search.json?api-key=1eeeeb00d14043ac982b41707fef4655&query=' + movieNames;
 
-  $.getJSON(link, function (data) {
-    var results = data.results;
-    var numResult = data.num_results;
+    $.getJSON(link, function (data) {
+      var results = data.results;
+      var numResult = data.num_results;
 
-    $('#movies').append('<h3>Viewing ' + numResult + ' movies</h3>');
+      $('#movies').append('<h3>Viewing ' + numResult + ' movies</h3>');
 
-    $.each(results, function(detailsIndex, detailsValue) {
-      var title = detailsValue.display_title;
-      var rating = detailsValue.mpaa_rating;
-      var short = detailsValue.summary_short;
-      var opening = detailsValue.opening_date;
-      var movieLink = detailsValue.link.url;
+      $.each(results, function (detailsIndex, detailsValue) {
+        var title = detailsValue.display_title;
+        var rating = detailsValue.mpaa_rating;
+        var short = detailsValue.summary_short;
+        var openingDate = detailsValue.opening_date;
+        var opening = $.datepicker.formatDate('(MM d, yy)', new Date(openingDate));
+        var movieLink = detailsValue.link.url;
 
-      var detailString = title + ' ' + rating;
-            detailString += '<br>' + short;
-            detailString += '<br><a href="' + movieLink + '" target="_blank">' + movieLink + '</a>';
-            var li = '<p>' + detailString + '</p> <br>';
-            $('#movies').append(li);
-    });
-  }); // end getJSON
+        if (opening == '(undefined NaN, NaN)') {
+          opening = '';
+        }
 
-  }
+        var detailString = title + ' ' + rating + ' ' + opening;
+        detailString += '<br>' + short;
+        detailString += '<br><a href="' + movieLink + '" target="_blank">' + movieLink + '</a>';
+        var li = '<p>' + detailString + '</p> <br>';
+        $('#movies').append(li);
+      }); // end each
+    }); // end getJSON
 
-}
+  } // end if
+
+} // end movies
